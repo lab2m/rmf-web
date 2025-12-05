@@ -64,7 +64,7 @@ export default function App() {
   return (
     <RmfDashboard
       apiServerUrl="http://localhost:8000"
-      trajectoryServerUrl="http://localhost:8006"
+      trajectoryServerUrl="ws://localhost:8000/trajectory"
       authenticator={new StubAuthenticator()}
       helpLink="https://osrf.github.io/ros2multirobotbook/rmf-core.html"
       reportIssueLink="https://github.com/open-rmf/rmf-web/issues"

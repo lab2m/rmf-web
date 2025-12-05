@@ -12,3 +12,4 @@ from .lifts import router as lifts_router
 from .main import router as main_router
 from .rios import router as rios_router
 from .tasks import *
+from .trajectory import router as trajectory_router

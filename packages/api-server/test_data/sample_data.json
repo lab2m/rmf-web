@@ -1,0 +1,735 @@
+{
+  "_description": "RMF API Server 테스트용 샘플 데이터",
+  "_usage": "inject_test_data.py 스크립트를 사용하여 API 서버에 주입",
+
+  "building_map": {
+    "name": "test_building",
+    "levels": [
+      {
+        "name": "L1",
+        "elevation": 0.0,
+        "images": [
+          {
+            "name": "floor_plan_L1",
+            "x_offset": 0.0,
+            "y_offset": 0.0,
+            "yaw": 0.0,
+            "scale": 0.05,
+            "encoding": "png",
+            "data": ""
+          }
+        ],
+        "places": [
+          {"name": "charging_station_1", "x": 5.0, "y": 5.0, "yaw": 0.0, "position_tolerance": 0.3, "yaw_tolerance": 0.1},
+          {"name": "pickup_point_A", "x": 10.0, "y": 15.0, "yaw": 1.57, "position_tolerance": 0.3, "yaw_tolerance": 0.1},
+          {"name": "dropoff_point_B", "x": 20.0, "y": 10.0, "yaw": 3.14, "position_tolerance": 0.3, "yaw_tolerance": 0.1},
+          {"name": "waiting_area_1", "x": 15.0, "y": 5.0, "yaw": 0.0, "position_tolerance": 0.5, "yaw_tolerance": 0.2},
+          {"name": "lobby", "x": 2.0, "y": 2.0, "yaw": 0.0, "position_tolerance": 0.5, "yaw_tolerance": 0.2}
+        ],
+        "doors": [
+          {
+            "name": "main_entrance",
+            "v1_x": 0.0, "v1_y": 5.0,
+            "v2_x": 0.0, "v2_y": 7.0,
+            "door_type": 1,
+            "motion_range": 1.57,
+            "motion_direction": 1
+          },
+          {
+            "name": "office_door_1",
+            "v1_x": 10.0, "v1_y": 10.0,
+            "v2_x": 10.0, "v2_y": 11.5,
+            "door_type": 2,
+            "motion_range": 3.14,
+            "motion_direction": 1
+          }
+        ],
+        "nav_graphs": [
+          {
+            "name": "fleet_1_nav",
+            "vertices": [
+              {"x": 5.0, "y": 5.0, "name": "charging_station_1", "params": []},
+              {"x": 10.0, "y": 15.0, "name": "pickup_point_A", "params": []},
+              {"x": 20.0, "y": 10.0, "name": "dropoff_point_B", "params": []},
+              {"x": 15.0, "y": 5.0, "name": "waiting_area_1", "params": []},
+              {"x": 10.0, "y": 10.0, "name": "intersection_1", "params": []}
+            ],
+            "edges": [
+              {"v1_idx": 0, "v2_idx": 4, "params": [], "edge_type": 0},
+              {"v1_idx": 4, "v2_idx": 1, "params": [], "edge_type": 0},
+              {"v1_idx": 4, "v2_idx": 2, "params": [], "edge_type": 0},
+              {"v1_idx": 4, "v2_idx": 3, "params": [], "edge_type": 0},
+              {"v1_idx": 1, "v2_idx": 2, "params": [], "edge_type": 0}
+            ],
+            "params": []
+          }
+        ],
+        "wall_graph": {
+          "name": "walls",
+          "vertices": [],
+          "edges": [],
+          "params": []
+        }
+      },
+      {
+        "name": "L2",
+        "elevation": 3.5,
+        "images": [
+          {
+            "name": "floor_plan_L2",
+            "x_offset": 0.0,
+            "y_offset": 0.0,
+            "yaw": 0.0,
+            "scale": 0.05,
+            "encoding": "png",
+            "data": ""
+          }
+        ],
+        "places": [
+          {"name": "office_A", "x": 5.0, "y": 10.0, "yaw": 0.0, "position_tolerance": 0.3, "yaw_tolerance": 0.1},
+          {"name": "office_B", "x": 15.0, "y": 10.0, "yaw": 0.0, "position_tolerance": 0.3, "yaw_tolerance": 0.1},
+          {"name": "meeting_room_1", "x": 10.0, "y": 20.0, "yaw": 1.57, "position_tolerance": 0.3, "yaw_tolerance": 0.1}
+        ],
+        "doors": [
+          {
+            "name": "elevator_door_L2",
+            "v1_x": 2.0, "v1_y": 2.0,
+            "v2_x": 2.0, "v2_y": 4.0,
+            "door_type": 2,
+            "motion_range": 3.14,
+            "motion_direction": 1
+          }
+        ],
+        "nav_graphs": [
+          {
+            "name": "fleet_1_nav",
+            "vertices": [
+              {"x": 2.0, "y": 3.0, "name": "elevator_L2", "params": []},
+              {"x": 5.0, "y": 10.0, "name": "office_A", "params": []},
+              {"x": 15.0, "y": 10.0, "name": "office_B", "params": []},
+              {"x": 10.0, "y": 20.0, "name": "meeting_room_1", "params": []}
+            ],
+            "edges": [
+              {"v1_idx": 0, "v2_idx": 1, "params": [], "edge_type": 0},
+              {"v1_idx": 0, "v2_idx": 2, "params": [], "edge_type": 0},
+              {"v1_idx": 1, "v2_idx": 2, "params": [], "edge_type": 0},
+              {"v1_idx": 2, "v2_idx": 3, "params": [], "edge_type": 0}
+            ],
+            "params": []
+          }
+        ],
+        "wall_graph": {
+          "name": "walls",
+          "vertices": [],
+          "edges": [],
+          "params": []
+        }
+      }
+    ],
+    "lifts": [
+      {
+        "name": "main_elevator",
+        "levels": ["L1", "L2"],
+        "doors": [
+          {
+            "name": "elevator_door",
+            "v1_x": 0.0, "v1_y": 0.0,
+            "v2_x": 0.0, "v2_y": 1.5,
+            "door_type": 2,
+            "motion_range": 3.14,
+            "motion_direction": 1
+          }
+        ],
+        "wall_graph": {
+          "name": "lift_walls",
+          "vertices": [],
+          "edges": [],
+          "params": []
+        },
+        "ref_x": 2.0,
+        "ref_y": 3.0,
+        "ref_yaw": 0.0,
+        "width": 2.0,
+        "depth": 2.5
+      }
+    ]
+  },
+
+  "fleets": [
+    {
+      "name": "fleet_1",
+      "robots": {
+        "robot_1": {
+          "name": "robot_1",
+          "status": "idle",
+          "task_id": "",
+          "unix_millis_time": 1733300000000,
+          "location": {
+            "map": "L1",
+            "x": 5.0,
+            "y": 5.0,
+            "yaw": 0.0
+          },
+          "battery": 0.95,
+          "issues": [],
+          "commission": {
+            "dispatch_tasks": true,
+            "direct_tasks": true,
+            "idle_behavior": true
+          },
+          "mutex_groups": {
+            "locked": [],
+            "requesting": []
+          }
+        },
+        "robot_2": {
+          "name": "robot_2",
+          "status": "working",
+          "task_id": "task_delivery_001",
+          "unix_millis_time": 1733300000000,
+          "location": {
+            "map": "L1",
+            "x": 12.0,
+            "y": 12.0,
+            "yaw": 1.57
+          },
+          "battery": 0.72,
+          "issues": [],
+          "commission": {
+            "dispatch_tasks": true,
+            "direct_tasks": true,
+            "idle_behavior": true
+          },
+          "mutex_groups": {
+            "locked": [],
+            "requesting": []
+          }
+        },
+        "robot_3": {
+          "name": "robot_3",
+          "status": "charging",
+          "task_id": "",
+          "unix_millis_time": 1733300000000,
+          "location": {
+            "map": "L1",
+            "x": 5.0,
+            "y": 5.0,
+            "yaw": 3.14
+          },
+          "battery": 0.35,
+          "issues": [],
+          "commission": {
+            "dispatch_tasks": true,
+            "direct_tasks": true,
+            "idle_behavior": true
+          },
+          "mutex_groups": {
+            "locked": [],
+            "requesting": []
+          }
+        }
+      }
+    },
+    {
+      "name": "cleaning_fleet",
+      "robots": {
+        "cleaner_1": {
+          "name": "cleaner_1",
+          "status": "idle",
+          "task_id": "",
+          "unix_millis_time": 1733300000000,
+          "location": {
+            "map": "L2",
+            "x": 5.0,
+            "y": 10.0,
+            "yaw": 0.0
+          },
+          "battery": 0.88,
+          "issues": [],
+          "commission": {
+            "dispatch_tasks": true,
+            "direct_tasks": true,
+            "idle_behavior": true
+          },
+          "mutex_groups": {
+            "locked": [],
+            "requesting": []
+          }
+        }
+      }
+    }
+  ],
+
+  "tasks": [
+    {
+      "state": {
+        "booking": {
+          "id": "task_delivery_001",
+          "unix_millis_earliest_start_time": 1733299000000,
+          "unix_millis_request_time": 1733298500000,
+          "priority": {"value": 1},
+          "labels": ["app=dashboard", "type=delivery"],
+          "requester": "test_user"
+        },
+        "category": "delivery",
+        "detail": {
+          "pickup": "pickup_point_A",
+          "dropoff": "dropoff_point_B",
+          "payload": "package_001"
+        },
+        "unix_millis_start_time": 1733299000000,
+        "unix_millis_finish_time": null,
+        "original_estimate_millis": 300000,
+        "estimate_millis": 180000,
+        "assigned_to": {
+          "group": "fleet_1",
+          "name": "robot_2"
+        },
+        "status": "underway",
+        "dispatch": {
+          "status": "dispatched",
+          "assignment": {
+            "fleet_name": "fleet_1",
+            "expected_robot_name": "robot_2"
+          },
+          "errors": null
+        },
+        "phases": {
+          "1": {
+            "id": 1,
+            "category": "Go to pickup",
+            "detail": {"destination": "pickup_point_A"},
+            "unix_millis_start_time": 1733299000000,
+            "unix_millis_finish_time": 1733299060000,
+            "original_estimate_millis": 60000,
+            "estimate_millis": 60000,
+            "final_event_id": 1,
+            "events": {
+              "1": {
+                "id": 1,
+                "status": "completed",
+                "name": "Navigate to pickup_point_A",
+                "detail": {"destination": "pickup_point_A"},
+                "deps": []
+              }
+            },
+            "skip_requests": null
+          },
+          "2": {
+            "id": 2,
+            "category": "Pickup",
+            "detail": {"action": "pickup", "payload": "package_001"},
+            "unix_millis_start_time": 1733299060000,
+            "unix_millis_finish_time": 1733299090000,
+            "original_estimate_millis": 30000,
+            "estimate_millis": 30000,
+            "final_event_id": 1,
+            "events": {
+              "1": {
+                "id": 1,
+                "status": "completed",
+                "name": "Pickup package_001",
+                "detail": {"payload": "package_001"},
+                "deps": []
+              }
+            },
+            "skip_requests": null
+          },
+          "3": {
+            "id": 3,
+            "category": "Go to dropoff",
+            "detail": {"destination": "dropoff_point_B"},
+            "unix_millis_start_time": 1733299090000,
+            "unix_millis_finish_time": null,
+            "original_estimate_millis": 120000,
+            "estimate_millis": 90000,
+            "final_event_id": 1,
+            "events": {
+              "1": {
+                "id": 1,
+                "status": "underway",
+                "name": "Navigate to dropoff_point_B",
+                "detail": {"destination": "dropoff_point_B"},
+                "deps": []
+              }
+            },
+            "skip_requests": null
+          },
+          "4": {
+            "id": 4,
+            "category": "Dropoff",
+            "detail": {"action": "dropoff", "payload": "package_001"},
+            "unix_millis_start_time": null,
+            "unix_millis_finish_time": null,
+            "original_estimate_millis": 30000,
+            "estimate_millis": 30000,
+            "final_event_id": 1,
+            "events": {
+              "1": {
+                "id": 1,
+                "status": "queued",
+                "name": "Dropoff package_001",
+                "detail": {"payload": "package_001"},
+                "deps": []
+              }
+            },
+            "skip_requests": null
+          }
+        },
+        "completed": [1, 2],
+        "active": 3,
+        "pending": [4],
+        "interruptions": null,
+        "cancellation": null,
+        "killed": null
+      },
+      "request": {
+        "unix_millis_earliest_start_time": 1733299000000,
+        "priority": {"value": 1},
+        "category": "delivery",
+        "description": {
+          "pickup": {"place": "pickup_point_A", "handler": "coke_ingestor", "payload": [{"sku": "package_001", "quantity": 1}]},
+          "dropoff": {"place": "dropoff_point_B", "handler": "coke_dispenser", "payload": [{"sku": "package_001", "quantity": 1}]}
+        },
+        "labels": ["app=dashboard", "type=delivery"],
+        "requester": "test_user"
+      }
+    },
+    {
+      "state": {
+        "booking": {
+          "id": "task_patrol_001",
+          "unix_millis_earliest_start_time": 1733300000000,
+          "unix_millis_request_time": 1733299800000,
+          "priority": {"value": 0},
+          "labels": ["app=dashboard", "type=patrol"],
+          "requester": "test_user"
+        },
+        "category": "patrol",
+        "detail": {
+          "places": ["lobby", "waiting_area_1", "pickup_point_A"],
+          "rounds": 1
+        },
+        "unix_millis_start_time": null,
+        "unix_millis_finish_time": null,
+        "original_estimate_millis": 600000,
+        "estimate_millis": 600000,
+        "assigned_to": null,
+        "status": "queued",
+        "dispatch": {
+          "status": "queued",
+          "assignment": null,
+          "errors": null
+        },
+        "phases": null,
+        "completed": [],
+        "active": null,
+        "pending": [],
+        "interruptions": null,
+        "cancellation": null,
+        "killed": null
+      },
+      "request": {
+        "unix_millis_earliest_start_time": 1733300000000,
+        "priority": {"value": 0},
+        "category": "patrol",
+        "description": {
+          "places": ["lobby", "waiting_area_1", "pickup_point_A"],
+          "rounds": 1
+        },
+        "labels": ["app=dashboard", "type=patrol"],
+        "requester": "test_user"
+      }
+    },
+    {
+      "state": {
+        "booking": {
+          "id": "task_completed_001",
+          "unix_millis_earliest_start_time": 1733290000000,
+          "unix_millis_request_time": 1733289500000,
+          "priority": {"value": 1},
+          "labels": ["app=dashboard", "type=delivery"],
+          "requester": "admin"
+        },
+        "category": "delivery",
+        "detail": {
+          "pickup": "pickup_point_A",
+          "dropoff": "office_A",
+          "payload": "document_001"
+        },
+        "unix_millis_start_time": 1733290000000,
+        "unix_millis_finish_time": 1733290600000,
+        "original_estimate_millis": 600000,
+        "estimate_millis": 600000,
+        "assigned_to": {
+          "group": "fleet_1",
+          "name": "robot_1"
+        },
+        "status": "completed",
+        "dispatch": {
+          "status": "dispatched",
+          "assignment": {
+            "fleet_name": "fleet_1",
+            "expected_robot_name": "robot_1"
+          },
+          "errors": null
+        },
+        "phases": {
+          "1": {
+            "id": 1,
+            "category": "Complete",
+            "detail": {"status": "completed"},
+            "unix_millis_start_time": 1733290000000,
+            "unix_millis_finish_time": 1733290600000,
+            "original_estimate_millis": 600000,
+            "estimate_millis": 600000,
+            "final_event_id": 1,
+            "events": {
+              "1": {
+                "id": 1,
+                "status": "completed",
+                "name": "Delivery completed",
+                "detail": {},
+                "deps": []
+              }
+            },
+            "skip_requests": null
+          }
+        },
+        "completed": [1],
+        "active": null,
+        "pending": [],
+        "interruptions": null,
+        "cancellation": null,
+        "killed": null
+      },
+      "request": {
+        "unix_millis_earliest_start_time": 1733290000000,
+        "priority": {"value": 1},
+        "category": "delivery",
+        "description": {
+          "pickup": {"place": "pickup_point_A", "handler": "coke_ingestor", "payload": [{"sku": "document_001", "quantity": 1}]},
+          "dropoff": {"place": "office_A", "handler": "coke_dispenser", "payload": [{"sku": "document_001", "quantity": 1}]}
+        },
+        "labels": ["app=dashboard", "type=delivery"],
+        "requester": "admin"
+      }
+    }
+  ],
+
+  "doors": [
+    {
+      "door_time": {"sec": 1733300000, "nanosec": 0},
+      "door_name": "main_entrance",
+      "current_mode": {"value": 0}
+    },
+    {
+      "door_time": {"sec": 1733300000, "nanosec": 0},
+      "door_name": "office_door_1",
+      "current_mode": {"value": 2}
+    },
+    {
+      "door_time": {"sec": 1733300000, "nanosec": 0},
+      "door_name": "elevator_door_L2",
+      "current_mode": {"value": 0}
+    }
+  ],
+
+  "lifts": [
+    {
+      "lift_time": {"sec": 1733300000, "nanosec": 0},
+      "lift_name": "main_elevator",
+      "available_floors": ["L1", "L2"],
+      "current_floor": "L1",
+      "destination_floor": "L1",
+      "door_state": 0,
+      "motion_state": 0,
+      "available_modes": [0, 1, 2],
+      "current_mode": 0,
+      "session_id": ""
+    }
+  ],
+
+  "dispensers": [
+    {
+      "guid": "dispenser_1",
+      "mode": 0,
+      "request_guid_queue": [],
+      "seconds_remaining": 0.0
+    },
+    {
+      "guid": "coke_dispenser",
+      "mode": 0,
+      "request_guid_queue": [],
+      "seconds_remaining": 0.0
+    }
+  ],
+
+  "ingestors": [
+    {
+      "guid": "ingestor_1",
+      "mode": 0,
+      "request_guid_queue": [],
+      "seconds_remaining": 0.0
+    },
+    {
+      "guid": "coke_ingestor",
+      "mode": 0,
+      "request_guid_queue": [],
+      "seconds_remaining": 0.0
+    }
+  ],
+
+  "alerts": [
+    {
+      "id": "alert_001",
+      "unix_millis_alert_time": 1733299500000,
+      "title": "Low Battery Warning",
+      "subtitle": "Robot needs charging",
+      "message": "robot_3 battery level is below 40%. Please ensure charging station is available.",
+      "display": true,
+      "tier": "warning",
+      "responses_available": ["acknowledge", "snooze", "dismiss"],
+      "alert_parameters": [
+        {"name": "robot_name", "value": "robot_3"},
+        {"name": "battery_level", "value": "35%"}
+      ],
+      "task_id": null
+    },
+    {
+      "id": "alert_002",
+      "unix_millis_alert_time": 1733298000000,
+      "title": "Task Completed",
+      "subtitle": "Delivery finished",
+      "message": "Task task_completed_001 has been successfully completed.",
+      "display": true,
+      "tier": "info",
+      "responses_available": ["acknowledge"],
+      "alert_parameters": [
+        {"name": "task_id", "value": "task_completed_001"}
+      ],
+      "task_id": "task_completed_001"
+    }
+  ],
+
+  "beacons": [
+    {
+      "id": "beacon_L1_01",
+      "online": true,
+      "category": "location",
+      "activated": true,
+      "level": "L1"
+    },
+    {
+      "id": "beacon_L1_02",
+      "online": true,
+      "category": "location",
+      "activated": true,
+      "level": "L1"
+    },
+    {
+      "id": "beacon_L2_01",
+      "online": false,
+      "category": "location",
+      "activated": false,
+      "level": "L2"
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin",
+      "is_admin": true,
+      "roles": []
+    },
+    {
+      "username": "test_user",
+      "is_admin": false,
+      "roles": ["operator"]
+    },
+    {
+      "username": "viewer",
+      "is_admin": false,
+      "roles": ["viewer"]
+    }
+  ],
+
+  "roles": [
+    {
+      "name": "operator",
+      "permissions": [
+        {"authz_grp": "default", "action": "task_submit"},
+        {"authz_grp": "default", "action": "task_read"},
+        {"authz_grp": "default", "action": "task_cancel"},
+        {"authz_grp": "default", "action": "fleet_read"},
+        {"authz_grp": "default", "action": "building_map_read"}
+      ]
+    },
+    {
+      "name": "viewer",
+      "permissions": [
+        {"authz_grp": "default", "action": "task_read"},
+        {"authz_grp": "default", "action": "fleet_read"},
+        {"authz_grp": "default", "action": "building_map_read"}
+      ]
+    },
+    {
+      "name": "supervisor",
+      "permissions": [
+        {"authz_grp": "default", "action": "task_submit"},
+        {"authz_grp": "default", "action": "task_read"},
+        {"authz_grp": "default", "action": "task_cancel"},
+        {"authz_grp": "default", "action": "task_kill"},
+        {"authz_grp": "default", "action": "fleet_read"},
+        {"authz_grp": "default", "action": "fleet_commission"},
+        {"authz_grp": "default", "action": "building_map_read"},
+        {"authz_grp": "default", "action": "door_control"},
+        {"authz_grp": "default", "action": "lift_control"}
+      ]
+    }
+  ],
+
+  "_door_mode_reference": {
+    "0": "MODE_CLOSED",
+    "1": "MODE_MOVING",
+    "2": "MODE_OPEN"
+  },
+
+  "_lift_motion_state_reference": {
+    "0": "MOTION_STOPPED",
+    "1": "MOTION_UP",
+    "2": "MOTION_DOWN",
+    "3": "MOTION_UNKNOWN"
+  },
+
+  "_lift_door_state_reference": {
+    "0": "DOOR_CLOSED",
+    "1": "DOOR_MOVING",
+    "2": "DOOR_OPEN"
+  },
+
+  "_robot_status_reference": {
+    "uninitialized": "Robot is not initialized",
+    "offline": "Robot is offline",
+    "shutdown": "Robot is shutting down",
+    "idle": "Robot is idle and available",
+    "charging": "Robot is charging",
+    "working": "Robot is executing a task",
+    "error": "Robot has an error"
+  },
+
+  "_task_status_reference": {
+    "uninitialized": "Task is not initialized",
+    "blocked": "Task is blocked",
+    "error": "Task has an error",
+    "failed": "Task has failed",
+    "queued": "Task is queued",
+    "standby": "Task is on standby",
+    "underway": "Task is being executed",
+    "delayed": "Task is delayed",
+    "skipped": "Task was skipped",
+    "canceled": "Task was canceled",
+    "killed": "Task was killed",
+    "completed": "Task completed successfully"
+  }
+}

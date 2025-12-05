@@ -21,6 +21,7 @@ from rmf_door_msgs.msg import DoorMode as RmfDoorMode
 from rmf_door_msgs.msg import DoorRequest as RmfDoorRequest
 from rmf_door_msgs.msg import DoorState as RmfDoorState
 from rmf_fleet_msgs.msg import BeaconState as RmfBeaconState
+from rmf_fleet_msgs.msg import FleetState as RmfFleetState
 from rmf_fleet_msgs.msg import DeliveryAlert as RmfDeliveryAlert
 from rmf_fleet_msgs.msg import DeliveryAlertAction as RmfDeliveryAlertAction
 from rmf_fleet_msgs.msg import DeliveryAlertCategory as RmfDeliveryAlertCategory
@@ -35,6 +36,7 @@ from rosidl_runtime_py.convert import message_to_ordereddict
 from std_msgs.msg import Bool as BoolMsg
 from tortoise.exceptions import IntegrityError
 
+from api_server.data_capture import capture_data
 from api_server.exceptions import AlreadyExistsError, InvalidInputError, NotFoundError
 from api_server.fast_io.singleton_dep import singleton_dep
 from api_server.models.user import User
@@ -188,6 +190,9 @@ class RmfGateway:
     def _subscribe_all(self):
         def handle_door_state(msg):
             async def save(door_state: DoorState):
+                capture_data(
+                    "door_state", door_state, door_state.door_name, source="gateway"
+                )
                 await self._rmf_repo.save_door_state(door_state)
                 self._rmf_events.door_states.on_next(door_state)
                 logging.debug("%s", door_state)
@@ -204,6 +209,9 @@ class RmfGateway:
 
         def handle_lift_state(msg):
             async def save(lift_state: LiftState):
+                capture_data(
+                    "lift_state", lift_state, lift_state.lift_name, source="gateway"
+                )
                 await self._rmf_repo.save_lift_state(lift_state)
                 self._rmf_events.lift_states.on_next(lift_state)
                 logging.debug("%s", lift_state)
@@ -221,6 +229,12 @@ class RmfGateway:
 
         def handle_dispenser_state(msg):
             async def save(dispenser_state: DispenserState):
+                capture_data(
+                    "dispenser_state",
+                    dispenser_state,
+                    dispenser_state.guid,
+                    source="gateway",
+                )
                 await self._rmf_repo.save_dispenser_state(dispenser_state)
                 self._rmf_events.dispenser_states.on_next(dispenser_state)
                 logging.debug("%s", dispenser_state)
@@ -237,6 +251,12 @@ class RmfGateway:
 
         def handle_ingestor_state(msg):
             async def save(ingestor_state: IngestorState):
+                capture_data(
+                    "ingestor_state",
+                    ingestor_state,
+                    ingestor_state.guid,
+                    source="gateway",
+                )
                 await self._rmf_repo.save_ingestor_state(ingestor_state)
                 self._rmf_events.ingestor_states.on_next(ingestor_state)
                 logging.debug("%s", ingestor_state)
@@ -253,6 +273,9 @@ class RmfGateway:
 
         def handle_building_map(msg):
             async def save(building_map: BuildingMap):
+                capture_data(
+                    "building_map", building_map, building_map.name, source="gateway"
+                )
                 await self._rmf_repo.save_building_map(building_map)
                 self._rmf_events.building_map.on_next(building_map)
                 logging.debug("%s", building_map)
@@ -275,6 +298,9 @@ class RmfGateway:
 
         def handle_beacon_state(msg):
             async def save(beacon_state: BeaconState):
+                capture_data(
+                    "beacon_state", beacon_state, beacon_state.id, source="gateway"
+                )
                 await self._rmf_repo.save_beacon_state(beacon_state)
                 self._rmf_events.beacons.on_next(beacon_state)
                 logging.debug("%s", beacon_state)
@@ -297,6 +323,27 @@ class RmfGateway:
         )
         self._subscriptions.append(beacon_sub)
 
+        # ROS 2 fleet_states 토픽 구독 (path 데이터 포함)
+        def handle_fleet_state(msg):
+            msg = cast(RmfFleetState, msg)
+            fleet_data = message_to_ordereddict(msg)
+            # fleet_states_ros2로 별도 캡처 (path 데이터 포함)
+            capture_data(
+                "fleet_state_ros2",
+                fleet_data,
+                fleet_data.get("name"),
+                source="gateway",
+            )
+            logging.debug("fleet_state_ros2: %s", fleet_data.get("name"))
+
+        fleet_states_sub = self._ros_node.create_subscription(
+            RmfFleetState,
+            "fleet_states",
+            handle_fleet_state,
+            10,
+        )
+        self._subscriptions.append(fleet_states_sub)
+
         def handle_delivery_alert(msg):
             msg = cast(RmfDeliveryAlert, msg)
             da = DeliveryAlert(
@@ -307,6 +354,7 @@ class RmfGateway:
                 action=DeliveryAlert.Action.from_rmf_value(msg.action.value),
                 message=msg.message,
             )
+            capture_data("delivery_alert", da, da.id, source="gateway")
             self._rmf_events.delivery_alerts.on_next(da)
             logging.debug("%s", da)
 
@@ -351,6 +399,7 @@ class RmfGateway:
 
         def handle_alert(alert: AlertRequest):
             async def create_alert(alert: AlertRequest):
+                capture_data("alert_request", alert, alert.id, source="gateway")
                 try:
                     created_alert = await self._alert_repo.create_new_alert(alert)
                 except IntegrityError as e:
@@ -450,6 +499,9 @@ class RmfGateway:
             fire_alarm_trigger_state = FireAlarmTriggerState(
                 unix_millis_time=round(datetime.now().timestamp() * 1000),
                 trigger=msg.data,
+            )
+            capture_data(
+                "fire_alarm_trigger", fire_alarm_trigger_state, None, source="gateway"
             )
             self._rmf_events.fire_alarm_trigger.on_next(fire_alarm_trigger_state)
 
